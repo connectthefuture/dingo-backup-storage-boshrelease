@@ -15,6 +15,7 @@ instance_groups:
         ssh_user:
           username: dingo
           private_key: (( file "tmp/dingo-backup-storage" ))
+          public_key: (( file "tmp/dingo-backup-storage.pub" ))
     instances: 1
     persistent_disk: 100000
     resource_pool: small_z1
