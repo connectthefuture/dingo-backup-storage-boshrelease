@@ -14,3 +14,5 @@ properties:
     default: dingo
   ssh_user.private_key:
     description: private key for ssh access
+  ssh_user.public_key:
+    description: public key for ssh access
