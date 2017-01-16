@@ -25,9 +25,8 @@ case $1 in
 
     mkdir -p /home/$SSH_USERNAME/.ssh
     chmod 700 /home/$SSH_USERNAME/.ssh
-    cp /var/vcap/jobs/ssh_user/config/private_key /home/$SSH_USERNAME/.ssh/id_rsa
-    cp /var/vcap/jobs/ssh_user/config/public_key /home/$SSH_USERNAME/.ssh/id_rsa.pub
-    chmod 600 /home/$SSH_USERNAME/.ssh/id_rsa
+    cp /var/vcap/jobs/ssh_user/config/public_key /home/$SSH_USERNAME/.ssh/authorized_keys
+    chmod 600 /home/$SSH_USERNAME/.ssh/authorized_keys
 
     chown --recursive $SSH_USERNAME:$SSH_USERNAME /home/$SSH_USERNAME/.ssh
 
