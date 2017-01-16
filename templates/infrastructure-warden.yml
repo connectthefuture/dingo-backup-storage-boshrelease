@@ -16,6 +16,7 @@ instance_groups:
   - name: just_install_packages
     networks:
       - name: dingo_backup_storage1
+        static_ips: (( static_ips(0) ))
 
 compilation:
   cloud_properties:

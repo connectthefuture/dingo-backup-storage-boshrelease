@@ -24,10 +24,6 @@ resource_pools:
       instance_type: m3.medium
 
 networks:
-  - name: floating
-    type: vip
-    cloud_properties: {}
   - name: dingo_backup_storage1
-    type: dynamic
-    cloud_properties:
-      security_groups: (( grab meta.security_groups ))
+    type: manual
+    subnets: (( param "Please configure AWS networking" ))
