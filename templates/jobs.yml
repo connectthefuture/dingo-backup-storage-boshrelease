@@ -7,14 +7,19 @@ update:
   serial: false
 
 instance_groups:
-  - name: just_install_packages
+  - name: ssh_user
     jobs:
-    - name: just_install_packages
+    - name: ssh_user
       release: dingo-backup-storage
+      properties:
+        ssh_user:
+          username: dingo
+          private_key: (( file "tmp/dingo-backup-storage" ))
     instances: 1
-    persistent_disk: 0
+    persistent_disk: 100000
     resource_pool: small_z1
     networks: (( param "Please configure the networks for this job" ))
+
 
 networks: (( param "Please configure the global network definitions for this Deployment" ))
 

@@ -1,0 +1,15 @@
+---
+name: ssh_user
+packages: []
+templates:
+  bin/ctl: bin/ctl
+  bin/monit_debugger: bin/monit_debugger
+  config/private_key.erb: config/private_key
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+properties:
+  ssh_user.username:
+    description: username for ssh access
+    default: dingo
+  ssh_user.private_key:
+    description: private key for ssh access

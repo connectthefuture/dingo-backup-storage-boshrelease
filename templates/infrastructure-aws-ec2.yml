@@ -9,7 +9,7 @@ meta:
     version: latest
 
 instance_groups:
-  - name: just_install_packages
+  - name: ssh_user
     networks:
       - name: dingo_backup_storage1
     persistent_disk: (( grab meta.persistent_disk ))

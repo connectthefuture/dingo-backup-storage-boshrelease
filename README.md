@@ -1,76 +1,43 @@
-# BOSH Release for dingo-backup-storage
+# Simple VM for storing backups from Dingo PostgreSQL
 
-## Usage
+Currently Dingo PostgreSQL supports streaming continuous archives to Amazon S3. Some users are not yet allowed to use Amazon S3 and want a way to store backups within their current data center. This BOSH release is one option.
 
-To use this bosh release, first upload it to your bosh:
+It deploys a single VM with a known user created, with a known private key, thus allowing `rsync` to copy/read files to it. Dingo PostgreSQL will subsequently be upgraded to support `rsync` as a method of pushing backups & WAL segments.
 
-```
-bosh target BOSH_HOST
-git clone https://github.com/cloudfoundry-community/dingo-backup-storage-boshrelease.git
-cd dingo-backup-storage-boshrelease
-bosh upload release releases/dingo-backup-storage/dingo-backup-storage-1.yml
-```
+### Private key
 
-For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster. Note that this requires that you have installed [spruce](https://github.com/geofffranks/spruce).
+To create a private key for the deployment manifest:
 
 ```
-templates/make_manifest warden
-bosh -n deploy
+ssh-keygen -t rsa -N '' -f tmp/dingo-backup-storage
 ```
 
-For AWS EC2, create a single VM:
+The output to the terminal may look similar to:
 
 ```
-templates/make_manifest aws-ec2
-bosh -n deploy
+Generating public/private rsa key pair.
+Your identification has been saved in tmp/dingo-backup-storage.
+Your public key has been saved in tmp/dingo-backup-storage.pub.
+The key fingerprint is:
+SHA256:Whv1uvf2GnkxHbvsdKYgOk0ty5JYn9sOrbIOafU5RJg drnic@starkair.local
+The key's randomart image is:
++---[RSA 2048]----+
+|                 |
+|         o       |
+|        E o    . |
+|         o .    +|
+|        S ...  +.|
+|       =.=o+. ..+|
+|      =o.*B+o o++|
+|     ...=.*B..+=.|
+|       .+=++oo++.|
++----[SHA256]-----+
 ```
 
-### Override security groups
+Two new files will be created within the `tmp` directory. The `tmp/dingo-backup-storage` file contains the private key.
 
-For AWS & Openstack, the default deployment assumes there is a `default` security group. If you wish to use a different security group(s) then you can pass in additional configuration when running `make_manifest` above.
-
-Create a file `my-networking.yml`:
-
-``` yaml
----
-networks:
-  - name: dingo-backup-storage1
-    type: dynamic
-    cloud_properties:
-      security_groups:
-        - dingo-backup-storage
-```
-
-Where `- dingo-backup-storage` means you wish to use an existing security group called `dingo-backup-storage`.
-
-You now suffix this file path to the `make_manifest` command:
+This file will be picked up and inserted into the deployment manifest.
 
 ```
-templates/make_manifest openstack-nova my-networking.yml
-bosh -n deploy
+./templates/make_manifest warden
 ```
-
-### Development
-
-As a developer of this release, create new releases and upload them:
-
-```
-bosh create release --force && bosh -n upload release
-```
-
-### Final releases
-
-To share final releases:
-
-```
-bosh create release --final
-```
-
-By default the version number will be bumped to the next major number. You can specify alternate versions:
-
-
-```
-bosh create release --final --version 2.1
-```
-
-After the first release you need to contact [Dmitriy Kalinin](mailto://dkalinin@pivotal.io) to request your project is added to https://bosh.io/releases (as mentioned in README above).

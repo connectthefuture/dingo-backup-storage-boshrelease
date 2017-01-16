@@ -1,0 +1,5 @@
+check process ssh_user
+  with pidfile /var/vcap/sys/run/ssh_user/ssh_user.pid
+  start program "/var/vcap/jobs/ssh_user/bin/monit_debugger ssh_user_ctl '/var/vcap/jobs/ssh_user/bin/ctl start'"
+  stop program "/var/vcap/jobs/ssh_user/bin/monit_debugger ssh_user_ctl '/var/vcap/jobs/ssh_user/bin/ctl stop'"
+  group vcap

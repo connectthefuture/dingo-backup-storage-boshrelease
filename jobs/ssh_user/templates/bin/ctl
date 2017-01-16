@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/ssh_user/helpers/ctl_setup.sh 'ssh_user'
+
+export PORT=${PORT:-5000}
+export LANG=en_US.UTF-8
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE $JOB_NAME
+
+    # store pid in $PIDFILE
+    echo $$ > $PIDFILE
+
+    SSH_USERNAME=<%= p("ssh_user.username") %>
+
+    if [[ ! -d /home/$SSH_USERNAME ]]; then
+      useradd -m -s /bin/bash $SSH_USERNAME
+    fi
+
+    mkdir -p /home/$SSH_USERNAME/.ssh
+    chmod 700 /home/$SSH_USERNAME/.ssh
+    cp /var/vcap/jobs/ssh_user/config/private_key /home/$SSH_USERNAME/.ssh/id_rsa
+    chmod 600 /home/$SSH_USERNAME/.ssh/id_rsa
+
+    chown --recursive $SSH_USERNAME:$SSH_USERNAME /home/$SSH_USERNAME/.ssh
+
+    # do nothing forever
+    exec tail -f /dev/null
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+
+    ;;
+  *)
+    echo "Usage: ssh_user_ctl {start|stop}"
+
+    ;;
+
+esac
+exit 0
