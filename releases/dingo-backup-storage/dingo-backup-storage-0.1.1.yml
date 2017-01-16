@@ -1,0 +1,15 @@
+---
+packages: []
+jobs:
+- name: ssh_user
+  version: a30f72f858fad1a9b0b9f58bede9ddb38ca60c15
+  fingerprint: a30f72f858fad1a9b0b9f58bede9ddb38ca60c15
+  sha1: 99fdea9d127c8f8a518f4339bcf48c7d3b33f8b4
+license:
+  version: ac77a509d8b020148f8ce7b3ecce592f89c29c87
+  fingerprint: ac77a509d8b020148f8ce7b3ecce592f89c29c87
+  sha1: e473a0b24e69256a26af9f2b5e9fb54fd5e1fcd2
+commit_hash: 5e6a2b1c
+uncommitted_changes: true
+name: dingo-backup-storage
+version: 0.1.1
