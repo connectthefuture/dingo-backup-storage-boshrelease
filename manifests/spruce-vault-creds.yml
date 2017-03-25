@@ -1,0 +1,3 @@
+ssh:
+  private_key: (( vault $VAULT_PREFIX "/ssh_user:private_key" ))
+  public_key: (( vault $VAULT_PREFIX "/ssh_user:public_key" ))
