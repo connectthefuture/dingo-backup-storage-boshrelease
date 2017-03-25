@@ -1,0 +1,10 @@
+---
+name: sanity-test
+packages: []
+templates:
+  bin/run: bin/run
+  config/private_key.pem.erb: config/private_key.pem
+
+consumes:
+- name: ssh
+  type: ssh_user

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+user=<%= link("ssh").p("username") %>
+host=<%= link("ssh").instances.first.address %>
+
+private_key=/var/vcap/jobs/config/private_key.pem
+chmod +x 700 $(dirname $private_key)
+chmod +x 600 $private_key
+
+ssh $user@$host -i $private_key "echo 'hello world' > /var/vcap/store/ssh-user-sanity-test"
+value=$(ssh $user@$host -i $private_key "cat /var/vcap/store/ssh-user-sanity-test")
+if [[ "${value}" != "hello world" ]]; then
+  echo "Expected stored value to be 'hello world', got '${value}'"
+  exit 1
+fi

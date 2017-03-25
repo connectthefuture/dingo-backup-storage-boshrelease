@@ -4,6 +4,8 @@ name: dingo-backup-storage
 instance_groups:
 - name: ssh_user
   instances: 1
+  vm_type: default
+  stemcell: default
   networks: [{name: default}]
   persistent_disk: 100000
   jobs:
@@ -13,6 +15,15 @@ instance_groups:
       username: dingo
       private_key: ((ssh.private_key))
       public_key: ((ssh.public_key))
+- name: sanity-test
+  instances: 1
+  lifecycle: errand
+  vm_type: default
+  stemcell: default
+  networks: [{name: default}]
+  jobs:
+  - name: sanity-test
+    release: etcd-cf-service-broker
 
 variables:
 - name: ssh
