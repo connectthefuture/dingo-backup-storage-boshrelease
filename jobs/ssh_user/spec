@@ -7,9 +7,21 @@ templates:
   config/public_key.erb: config/public_key
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
+
+provides:
+- name: ssh
+  type: ssh_user
+  properties:
+  - username
+  - public_key
+  - private_key
+
 properties:
-  ssh_user.username:
+  username:
     description: username for ssh access
     default: dingo
-  ssh_user.public_key:
+  public_key:
     description: public key for ssh access
+
+  private_key:
+    description: corresponding private key, used by clients

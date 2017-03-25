@@ -1,0 +1,30 @@
+---
+name: dingo-backup-storage
+
+instance_groups:
+- name: ssh_user
+  instances: 1
+  networks: [{name: default}]
+  persistent_disk: 100000
+  jobs:
+  - name: ssh_user
+    release: dingo-backup-storage
+    properties:
+      username: dingo
+      private_key: ((ssh.private_key))
+      public_key: ((ssh.public_key))
+
+variables:
+- name: ssh
+  type: ssh
+
+releases:
+- name: dingo-backup-storage
+  version: latest
+
+update:
+  canaries: 0
+  canary_watch_time: 1000-30000
+  max_in_flight: 1
+  update_watch_time: 1000-30000
+  serial: false

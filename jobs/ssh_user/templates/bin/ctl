@@ -17,7 +17,7 @@ case $1 in
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
 
-    SSH_USERNAME=<%= p("ssh_user.username") %>
+    SSH_USERNAME=<%= p("username") %>
 
     if [[ ! -d /home/$SSH_USERNAME ]]; then
       useradd -m -s /bin/bash $SSH_USERNAME
