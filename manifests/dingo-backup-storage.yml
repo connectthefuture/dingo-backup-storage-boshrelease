@@ -4,6 +4,7 @@ name: dingo-backup-storage
 instance_groups:
 - name: ssh_user
   instances: 1
+  azs: [z1]
   vm_type: default
   stemcell: default
   networks: [{name: default}]
@@ -16,18 +17,24 @@ instance_groups:
       private_key: ((ssh.private_key))
       public_key: ((ssh.public_key))
 - name: sanity-test
-  instances: 1
   lifecycle: errand
+  instances: 1
+  azs: [z1]
   vm_type: default
   stemcell: default
   networks: [{name: default}]
   jobs:
   - name: sanity-test
-    release: etcd-cf-service-broker
+    release: dingo-backup-storage
 
 variables:
 - name: ssh
   type: ssh
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: "3363.12"
 
 releases:
 - name: dingo-backup-storage

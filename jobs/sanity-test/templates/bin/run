@@ -6,9 +6,10 @@ set -u # report the usage of uninitialized variables
 user=<%= link("ssh").p("username") %>
 host=<%= link("ssh").instances.first.address %>
 
-private_key=/var/vcap/jobs/config/private_key.pem
-chmod +x 700 $(dirname $private_key)
-chmod +x 600 $private_key
+private_key=/var/vcap/jobs/sanity-test/config/private_key.pem
+chown $user:$user $(dirname $private_key)
+chmod 700 $(dirname $private_key)
+chmod 600 $private_key
 
 ssh $user@$host -i $private_key "echo 'hello world' > /var/vcap/store/ssh-user-sanity-test"
 value=$(ssh $user@$host -i $private_key "cat /var/vcap/store/ssh-user-sanity-test")

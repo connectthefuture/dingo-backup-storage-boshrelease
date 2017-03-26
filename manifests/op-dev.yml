@@ -1,0 +1,6 @@
+---
+- type: replace
+  path: /releases/name=dingo-backup-storage
+  value:
+    name: dingo-backup-storage
+    version: latest
